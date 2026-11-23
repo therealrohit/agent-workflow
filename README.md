@@ -8,7 +8,11 @@ A Git-based workflow for taking a change from idea to verified merge with T3 Cod
 
 ## Quickstart
 
-Clone this repository to a location the agent can read. Choose either a project or a directory of projects to opt in. Keep host-specific paths in your local instruction files, or use environment variables when sharing one instruction file across machines.
+Use Git to clone this repository into a directory the agent can read. In T3 Code, select Codex and open a thread for the project you want to work on. For a first run, enable the workflow for one project. Use directory-wide scope if you want the same instructions across multiple repositories.
+
+The workflow uses Markdown instructions and templates. Setup requires a checkout and an agent instruction entry point. Delegation, review, and pull requests depend on the tools and access available in the selected runtime.
+
+Keep host-specific paths in your local instruction files, or use environment variables when sharing one instruction file across machines.
 
 ### Configure paths with environment variables
 
@@ -45,11 +49,23 @@ See [Codex instruction discovery](https://learn.chatgpt.com/docs/agent-configura
 
 ### Verify in T3 Code
 
-Open a fresh thread using Codex and ask it to identify the workflow entry point, the three approval gates, and when a dependent ticket can start. With directory-wide opt-in, repeat from an out-of-scope repository and an external linked worktree of an in-scope project. In a scratch thread, name an in-scope target project explicitly. The checkout and configured paths must be readable in the environment where the agent runs. Configure each linked machine or remote environment separately.
+Open a fresh Codex thread and send this read-only prompt:
+
+> For this project, identify the workflow entry point you loaded, list the approval gates, and explain when a dependent ticket can start. Report any setup problem.
+
+An in-scope thread should identify the workflow checkout and report three gates: idea approval, approval of the grilled specification, and approval of the exact PR head before merge. A dependent ticket can start when its prerequisite outputs satisfy their edge conditions and are available on the dependent's working base.
+
+For directory-wide setup, try the same prompt from an out-of-scope repository and from a linked worktree outside the directory whose primary checkout is inside it. The former should skip the workflow and the latter should load it. In a scratch thread, name an in-scope target explicitly.
+
+If the workflow fails to load, check the active instruction file, confirm the agent can read the checkout, and verify the variables are set in the agent's own environment. Configure each linked machine or remote environment separately.
 
 T3 Code can use its available delegation and worktree controls for independent ready tickets and reviewer assignments. Record any runtime limitations in the initiative. The workflow is driven by instructions and templates. Start a thread or task to run it.
 
-To disable the workflow, remove the reference you added from the active instruction file.
+To disable the workflow, remove the reference you added from the active instruction file and start a fresh thread.
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for proposing workflow changes and verifying documentation and templates.
 
 ## License
 
